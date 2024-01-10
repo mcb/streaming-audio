@@ -18,6 +18,7 @@ services:
     ports:
       - "1704:1704"
       - "1705:1705"
+      - "1780:1780"
     environment:
       - SERVICE_NAME=Snapcast  # for Avahi container
       - SERVICE_PORT=1704  # for Avahi container
@@ -34,6 +35,19 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - fifo:/fifo
+    ports:
+      # AirPlay ports
+      #- '3689:3689'
+      #- '5000:5000'
+      #- '6000-6009:6000-6009/udp'
+      # AirPlay-2 ports
+      - '319-320:319-320/udp'
+      - '3689:3689'
+      - '5000:5000'
+      - '7000:7000'
+      - '6000-6009:6000-6009/udp'
+      # Avahi ports
+      - '5353:5353'
     command:
       - -a
       - "StreamingAudio"
