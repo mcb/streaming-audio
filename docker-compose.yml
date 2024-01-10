@@ -11,8 +11,6 @@ services:
     volumes:
         - fifo:/fifo/
         - ./mopidy/mopidy.conf:/etc/mopidy.conf
-    networks:
-        - snapcast
     restart: unless-stopped
 
   snapserver:
@@ -27,8 +25,6 @@ services:
     volumes:
         - ./snapserver/snapserver.conf:/etc/snapserver.conf
         - fifo:/fifo/
-    networks:
-      - snapcast
     restart: unless-stopped
 
 
@@ -39,16 +35,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - fifo:/fifo
     command:
-      - -p
-      - "5001"
-      - -o
-      - pipe
       - -a
       - "StreamingAudio"
+      - -o
+      - pipe
       - --
       - /fifo/snapfifo.shairport
-    networks:
-      - snapcast
     restart: unless-stopped
 
 volumes:
