@@ -3,6 +3,7 @@ FROM alpine:latest
 RUN apk update \
     && apk upgrade \
     && apk add --no-cache \
+            dbus \
             mopidy \
             py-pip \
             python3-dev
