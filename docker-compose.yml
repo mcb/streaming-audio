@@ -32,8 +32,9 @@ services:
     restart: unless-stopped
 
 
-  shairportSync:
-    image: 'docker.io/kevineye/shairport-sync'
+  shairport:
+    #image: 'docker.io/kevineye/shairport-sync'
+    build: ./shairport
     environment:
       - AIRPLAY_NAME=StreamingAudio
     volumes:
