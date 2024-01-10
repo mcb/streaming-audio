@@ -1,0 +1,65 @@
+version: "3"
+services:
+
+  mopidy:
+    #image:
+    build: ./mopidy
+    ports:
+        - "6680:6680"
+        - "6681:6681"
+        - "16600:6600"
+    volumes:
+        - fifo:/fifo/
+        - /data/swarm/multiroom/mopidy/data:/var/lib/mopidy
+        - /shares/music:/media:ro
+        - ./mopidy/mopidy.conf:/etc/mopidy.conf
+    networks:
+        - snapcast
+        - proxy-local
+    restart: unless-stopped
+
+  snapserver:
+    #image: registry.local:5000/snapserver
+    build: ./snapserver
+    network_mode: host
+    ports:
+      - "1704:1704"
+      - "1705:1705"
+    environment:
+      - SERVICE_NAME=Snapcast  # for Avahi container
+      - SERVICE_PORT=1704  # for Avahi container
+      - SERVICE_TYPE=_snapcast._tcp  # for Avahi container
+    volumes:
+        - ./snapserver/snapserver.conf:/etc/snapserver.conf
+        - fifo:/fifo/
+#    networks:
+#        - snapcast
+    restart: unless-stopped
+
+
+  shairportSync:
+    image: kevineye/shairport-sync
+    network_mode: host
+    environment:
+      - AIRPLAY_NAME=StreamingAudio
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - fifo:/fifo
+#    networks:
+#        - snapcast
+    command:
+      - -p
+      - "5001"
+      - -o
+      - pipe
+      - --
+      - /fifo/snapfifo.shairport
+    restart: unless-stopped
+
+volumes:
+  fifo:
+
+networks:
+  proxy-local:
+    external: true
+  snapcast:
