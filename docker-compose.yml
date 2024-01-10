@@ -10,18 +10,13 @@ services:
         - "16600:6600"
     volumes:
         - fifo:/fifo/
-        - /data/swarm/multiroom/mopidy/data:/var/lib/mopidy
-        - /shares/music:/media:ro
         - ./mopidy/mopidy.conf:/etc/mopidy.conf
     networks:
         - snapcast
-        - proxy-local
     restart: unless-stopped
 
   snapserver:
-    #image: registry.local:5000/snapserver
     build: ./snapserver
-    network_mode: host
     ports:
       - "1704:1704"
       - "1705:1705"
@@ -32,21 +27,18 @@ services:
     volumes:
         - ./snapserver/snapserver.conf:/etc/snapserver.conf
         - fifo:/fifo/
-#    networks:
-#        - snapcast
+    networks:
+      - snapcast
     restart: unless-stopped
 
 
   shairportSync:
-    image: kevineye/shairport-sync
-    network_mode: host
+    image: 'docker.io/kevineye/shairport-sync'
     environment:
       - AIRPLAY_NAME=StreamingAudio
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - fifo:/fifo
-#    networks:
-#        - snapcast
     command:
       - -p
       - "5001"
@@ -54,12 +46,12 @@ services:
       - pipe
       - --
       - /fifo/snapfifo.shairport
+    networks:
+      - snapcast
     restart: unless-stopped
 
 volumes:
   fifo:
 
 networks:
-  proxy-local:
-    external: true
   snapcast:

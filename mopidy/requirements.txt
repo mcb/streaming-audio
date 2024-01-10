@@ -1,4 +1,3 @@
-Mopidy-dLeyna
 Mopidy-Iris
 mopidy-qobuz
 Mopidy-TuneIn
