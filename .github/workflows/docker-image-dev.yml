@@ -29,10 +29,10 @@ jobs:
         include:
           - image: ${{ github.repository }}-mopidy
             dockerfile: mopidy/Dockerfile
-            context: "{{defaultContext}}:mopidy"
+            ctxt: "{{defaultContext}}:mopidy"
           - image: ${{ github.repository }}-snapserver
             dockerfile: snapserver/Dockerfile
-            context:"{{defaultContext}}:snapserver"
+            ctxt: "{{defaultContext}}:snapserver"
 
     steps:
       - name: Checkout repository
@@ -68,7 +68,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v5
         with:
-          context: ${{ matrix.context }}
+          context: ${{ matrix.ctxt }}
           push: ${{ github.event_name != 'pull_request' }}
           #tags: ${{ steps.meta.outputs.tags }}
           file: ${{ matrix.dockerfile }}
