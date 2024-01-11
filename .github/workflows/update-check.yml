@@ -77,4 +77,4 @@ jobs:
   call-workflow-docker-image:
     needs: [check, update]
     if: ${{ fromJSON(needs.check.outputs.update_info).is_avail }}
-    uses: ./.github/workflows/docker-image.yml@main
+    uses: ./.github/workflows/docker-image.yml
