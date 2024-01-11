@@ -13,7 +13,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
   IMAGE_TAG: dev
 
 jobs:
@@ -28,9 +27,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - image: ${{ env.IMAGE_NAME }}-mopidy
+          - image: ${{ github.repository }}-mopidy
             dockerfile: mopidy/Dockerfile
-          - image: ${{ env.IMAGE_NAME }}-snapserver
+          - image: ${{ github.repository }}-snapserver
             dockerfile: snapserver/Dockerfile
 
     steps:
