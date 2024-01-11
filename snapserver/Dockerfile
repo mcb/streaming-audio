@@ -6,7 +6,7 @@ RUN apk update \
        snapcast-server
 
 RUN mkdir /fifo
-COPY snapserver.conf /etc/snapserver
+COPY ./snapserver.conf /etc/snapserver
 
 EXPOSE 1704 1705
 
