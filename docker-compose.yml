@@ -2,7 +2,7 @@ version: "3"
 services:
 
   mopidy:
-    image: 'ghcr.io/mcb/streaming-audio-snapserver:latest'
+    image: 'ghcr.io/mcb/streaming-audio-mopidy:latest'
     ports:
         - "6680:6680"
         - "6681:6681"
