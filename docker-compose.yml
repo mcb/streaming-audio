@@ -2,8 +2,7 @@ version: "3"
 services:
 
   mopidy:
-    #image:
-    build: ./mopidy
+    image: 'ghcr.io/mcb/streaming-audio-snapserver:latest'
     ports:
         - "6680:6680"
         - "6681:6681"
@@ -14,7 +13,7 @@ services:
     restart: unless-stopped
 
   snapserver:
-    build: ./snapserver
+    image: 'ghcr.io/mcb/streaming-audio-snapserver:latest'
     ports:
       - "1704:1704"
       - "1705:1705"
@@ -31,7 +30,6 @@ services:
 
   shairport:
     image: 'docker.io/mikebrady/shairport-sync'
-    # build: ./shairport
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - fifo:/fifo
