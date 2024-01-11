@@ -28,10 +28,8 @@ jobs:
       matrix:
         include:
           - image: ${{ github.repository }}-mopidy
-            dockerfile: mopidy/Dockerfile
             ctxt: "{{defaultContext}}:mopidy"
           - image: ${{ github.repository }}-snapserver
-            dockerfile: snapserver/Dockerfile
             ctxt: "{{defaultContext}}:snapserver"
 
     steps:
@@ -71,7 +69,6 @@ jobs:
           context: ${{ matrix.ctxt }}
           push: ${{ github.event_name != 'pull_request' }}
           #tags: ${{ steps.meta.outputs.tags }}
-          file: ${{ matrix.dockerfile }}
           tags: ${{ matrix.image }}:${{ env.IMAGE_TAG }}
           platforms: linux/amd64,linux/arm64
           labels: ${{ steps.meta.outputs.labels }}
