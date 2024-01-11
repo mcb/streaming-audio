@@ -29,8 +29,10 @@ jobs:
         include:
           - image: ${{ github.repository }}-mopidy
             dockerfile: mopidy/Dockerfile
+            context: "{{defaultContext}}:mopidy"
           - image: ${{ github.repository }}-snapserver
             dockerfile: snapserver/Dockerfile
+            context:"{{defaultContext}}:snapserver"
 
     steps:
       - name: Checkout repository
@@ -66,7 +68,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ${{ matrix.context }}
           push: ${{ github.event_name != 'pull_request' }}
           #tags: ${{ steps.meta.outputs.tags }}
           file: ${{ matrix.dockerfile }}
@@ -74,4 +76,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: 
+          type=gha,mode=max

@@ -15,7 +15,7 @@ RUN pip3 install -r requirements.txt --break-system-packages \
     && rm -rf ~/.cache/pip
 
 # Default configuration
-ADD ./mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
+ADD mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
 
 RUN chown mopidy:audio -R /var/lib/mopidy/.config
 
